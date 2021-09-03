@@ -1,0 +1,15 @@
+#div-rectangle{
+    width: 100px;
+    height: 100px;
+
+    background-color: teal;
+    margin: 20px;
+}
+
+
+#canvas-placeholder{
+    width: 500px;
+    height: 500px;
+    
+    background-color: burlywood;
+}
