@@ -1,0 +1,17 @@
+h1, h4{
+    text-align: center;
+}
+
+body{
+    background-color: antiquewhite;
+    font-family:monospace;
+    color:darkblue;
+}
+
+#canvas-area{
+    display: block;
+    padding: 0;
+    margin: auto;
+    
+    background-image: url(./assets/bg.jpg);
+}
