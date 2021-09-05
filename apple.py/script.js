@@ -1,9 +1,11 @@
 function init(){
     garden = document.getElementById('canvas-area');
-    W = H = garden.width = garden.height = 600;
+    W = H = garden.width = garden.height = 1000;
     pen = garden.getContext('2d');
     
-    cellSpace = 65;
+    cellSpace = 67;
+    
+    apple = growApple();
     
     snake = {
         body:[],
@@ -20,38 +22,39 @@ function init(){
 
         drawSnake(){
             pen.fillStyle = snake.color;
-            for(let i = 0; i < snake.body_len; i++){
-                pen.fillRect(snake.body[i].x * cellSpace, snake.body[i].y * cellSpace, cellSpace - 4, cellSpace - 2)
+
+            for(let i = 0; i < snake.body.length; i++){
+                pen.fillRect(snake.body[i].x * cellSpace, snake.body[i].y * cellSpace, cellSpace - 4, cellSpace - 2);
             }
         },
 
         updateSnake(){
-            snake.body.pop();
-            tailX = snake.body[0].x;
-            tailY = snake.body[0].y;
+            headX = snake.body[0].x;
+            headY = snake.body[0].y;
+
+            if(headX == apple.x && headY == apple.y){
+                apple = growApple();
+            }else{
+                this.body.pop();
+            }
             
             let nextSceneX, nextSceneY;
 
             if(snake.direction == "right"){
-                nextSceneX = tailX + 1;
-                nextSceneY = tailY;
+                nextSceneX = headX + 1;
+                nextSceneY = headY;
             }else if(snake.direction == "left"){
-                nextSceneX = tailX - 1;
-                nextSceneY = tailY;
+                nextSceneX = headX - 1;
+                nextSceneY = headY;
             }else if(snake.direction == "up"){
-                nextSceneX = tailX;
-                nextSceneY = tailY - 1;
-            }else if(snake.direction == "down"){
-                nextSceneX = tailX;
-                nextSceneY = tailY + 1;
+                nextSceneX = headX;
+                nextSceneY = headY - 1;
+            }else{
+                nextSceneX = headX;
+                nextSceneY = headY + 1;
             }
-            
-            // Collision Detection
 
-            snake.body.unshift({
-                x:nextSceneX,
-                y:nextSceneY
-            })
+            this.body.unshift({x:nextSceneX, y:nextSceneY});
 
             let lastSceneX = Math.round(W / cellSpace), lastSceneY = Math.round(H / cellSpace);
             if(snake.body[0].x < 0 || snake.body[0].y < 0 || snake.body[0].x > lastSceneX ||snake.body[0].y > lastSceneY){
@@ -77,8 +80,22 @@ function init(){
     document.addEventListener("keydown", helpSnake);
 }
 
+function growApple(){
+    let appleX = Math.round(Math.random() * (W - cellSpace) / cellSpace);
+    let appleY = Math.round(Math.random() * (H - cellSpace) / cellSpace);
+
+    let apple = {
+        x: appleX,
+        y: appleY
+    }
+
+    return apple;
+}
+
 function draw(){
     pen.clearRect(0, 0, W, H);
+    pen.fillRect(apple.x * cellSpace, apple.y * cellSpace, cellSpace, cellSpace);
+    
     snake.drawSnake();
 }
 
