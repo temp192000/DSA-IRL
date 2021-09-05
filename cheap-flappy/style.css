@@ -1,0 +1,18 @@
+h1{
+    text-align: center;
+}
+
+body{
+    background-color:blanchedalmond;
+    font-family:monospace;
+    color:darkblue;
+}
+
+#canvas-area{
+    display: block;
+    padding: 0;
+    margin: auto;
+    
+    border: 10px solid darkblue;
+    background-image: url('./assets/bg.jpeg');
+}
