@@ -6,13 +6,19 @@ function init(){
     cellSpace = 67;
     
     apple = growApple();
-    
+    appleIMG = new Image();
+    appleIMG.src = './assets/apple.png'
+
+    score = 1;
+    trophy = new Image();
+    trophy.src = './assets/trophy.png'
+
     snake = {
         body:[],
         body_len: 5,
         color: "blue",
         direction: "right",
-        health: 1,
+        isAlive: true,
         
         createSnake(){
             for(let i = snake.body_len; i > 0; i--){
@@ -34,6 +40,7 @@ function init(){
 
             if(headX == apple.x && headY == apple.y){
                 apple = growApple();
+                score++;
             }else{
                 this.body.pop();
             }
@@ -58,7 +65,7 @@ function init(){
 
             let lastSceneX = Math.round(W / cellSpace), lastSceneY = Math.round(H / cellSpace);
             if(snake.body[0].x < 0 || snake.body[0].y < 0 || snake.body[0].x > lastSceneX ||snake.body[0].y > lastSceneY){
-                snake.health = 0;
+                snake.isAlive = false;
             }
         }        
     }
@@ -86,7 +93,8 @@ function growApple(){
 
     let apple = {
         x: appleX,
-        y: appleY
+        y: appleY,
+        color: "red"
     }
 
     return apple;
@@ -94,9 +102,15 @@ function growApple(){
 
 function draw(){
     pen.clearRect(0, 0, W, H);
-    pen.fillRect(apple.x * cellSpace, apple.y * cellSpace, cellSpace, cellSpace);
-    
     snake.drawSnake();
+
+    pen.fillStyle = apple.color;
+    pen.drawImage(appleIMG, apple.x * cellSpace, apple.y * cellSpace, cellSpace, cellSpace);
+    
+    pen.drawImage(trophy, 20, 20, cellSpace, cellSpace)
+    pen.fillStyle = "blue";
+    pen.font = "bold 20px arial";
+    pen.fillText(score, 50, 50);
 }
 
 function update(){
@@ -104,7 +118,7 @@ function update(){
 }
 
 function gameLoop(){
-    if(snake.health == 0){
+    if(snake.isAlive == false){
         clearInterval(gameState);
         alert("Game Over");
     }
