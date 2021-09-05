@@ -120,7 +120,7 @@ function update(){
 
 function gameLoop(){
     if(snake.isAlive == false){
-        clearInterval(gameState);
+        init();
         alert("Game Over");
     }
     draw();
