@@ -1,6 +1,7 @@
 function init(){
     garden = document.getElementById('canvas-area');
-    W = H = garden.width = garden.height = 1000;
+    W = garden.width = 1500;
+    H = garden.height = 650;
     pen = garden.getContext('2d');
     
     cellSpace = 67;
